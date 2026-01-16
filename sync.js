@@ -14,7 +14,7 @@ const FILES = [
 ];
 
 async function sync() {
-    const outputDir = path.join(__dirname, 'public');
+    const outputDir = path.join(__dirname, 'docs');
     if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir);
 
     for (const file of FILES) {
