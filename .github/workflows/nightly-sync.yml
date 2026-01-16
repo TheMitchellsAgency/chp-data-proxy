@@ -1,0 +1,31 @@
+name: Nightly JSON Sync
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs at 00:00 UTC every night
+  workflow_dispatch: # Allows you to run it manually for testing
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/checkout@v4
+        with:
+          node-version: '22'
+
+      - name: Run Script
+        run: |
+          mkdir -p output
+          node process-files.js
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/*.json
+          git commit -m "Nightly data update [skip ci]" || echo "No changes to commit"
+          git push
