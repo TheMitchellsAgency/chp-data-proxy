@@ -2,9 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const REPO_NAME = 'chp-data-proxy'; // Replace with your actual repo name
-const USERNAME = 'your-github-username'; // Replace with your GitHub username
-const BASE_URL = `https://${USERNAME}.github.io/${REPO_NAME}`;
+const BASE_URL = 'https://themitchellsagency.github.io/chp-data-proxy/';
 
 const FILES = [
     { name: 'cms-data-index.json', url: 'https://capitalhealth.com/cms-data-index.json' },
@@ -26,7 +24,7 @@ async function sync() {
         if (file.name === 'cms-data-index.json') {
             console.log('Updating URLs in index file...');
             // Replaces 'https://capitalhealth.com/json/' with your GitHub Pages URL
-            content = content.replace(/https:\/\/capitalhealth\.com\/json\//g, `${BASE_URL}/`);
+            content = content.replace(/https:\/\/capitalhealth\.com\/json\//g, BASE_URL);
         }
 
         fs.writeFileSync(path.join(outputDir, file.name), content);
