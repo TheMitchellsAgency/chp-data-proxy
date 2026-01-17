@@ -2,12 +2,14 @@ name: Nightly JSON Sync
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs at 00:00 UTC every night
-  workflow_dispatch: # Allows you to run it manually for testing
+    - cron: '0 0 * * *' # Midnight UTC
+  workflow_dispatch:    # Allows manual trigger for testing
 
 jobs:
-  build:
+  update-data:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -15,17 +17,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: 22
 
-      - name: Run Script
-        run: |
-          mkdir -p output
-          node process-files.js
+      - name: Run Sync Script
+        run: node sync.js
 
-      - name: Commit and Push
+      - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add output/*.json
-          git commit -m "Nightly data update [skip ci]" || echo "No changes to commit"
+          git add docs/*.json
+          git commit -m "Update JSON data: $(date -u)" || echo "No changes to commit"
           git push
