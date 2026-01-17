@@ -1,0 +1,5 @@
+{
+  "provider_urls": ["https://your-github-username.github.io/chp-data-proxy/provider.json"],
+  "formulary_urls": ["https://your-github-username.github.io/chp-data-proxy/drugs.json" ],
+  "plan_urls": ["https://your-github-username.github.io/chp-data-proxy/plans.json"]
+}
